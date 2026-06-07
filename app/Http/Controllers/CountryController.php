@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Country\IndexRequest;
+use App\Http\Resources\Country\CountryDetailsResource;
 use App\Services\CountryService;
+use Illuminate\Support\Arr;
 
 class CountryController extends Controller
 {
@@ -10,11 +13,15 @@ class CountryController extends Controller
         private CountryService $countryService
     ){}
 
-    public function index()
+    public function index(IndexRequest $request)
     {
         try {
             $countries = $this->countryService->getCountries();
-            return $this->successResponse(['countries' => $countries]);
+            $resourceData = CountryDetailsResource::collection($countries)
+                ->response($request)
+                ->getData(true);
+            $resourceData['countries'] = Arr::pull($resourceData, 'data');
+            return $this->successResponse(data: $resourceData);
         } catch (\Exception $e) {
             return $this->errorResponse('Failed to retrieve countries', 500, $e->getMessage());
         }

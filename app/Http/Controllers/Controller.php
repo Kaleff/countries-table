@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 abstract class Controller
 {
-    protected function successResponse(array $data = [], $message = 'Success', $statusCode = 200)
+    protected function successResponse(array $data = [], $message = 'Success', $statusCode = 200, $dataKey = 'data')
     {
         $response = [
             'success' => true,
             'message' => $message,
+            'status_code' => $statusCode,
         ];
 
         if (!empty($data)) {
-            $response['data'] = $data;
+            $response[$dataKey] = $data;
         }
 
         return response()->json($response, $statusCode);
@@ -23,6 +24,7 @@ abstract class Controller
         $response = [
             'success' => false,
             'message' => $message,
+            'status_code' => $statusCode,
         ];
 
         if ($details) {
