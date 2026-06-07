@@ -6,6 +6,7 @@ use App\Models\Country;
 use App\Models\CountryFlag;
 use App\Models\CountryIndex;
 use App\Traits\UseCountryApi;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
@@ -62,6 +63,11 @@ class CountryService
         } finally {
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         }
+    }
+
+    public function getCountries(): LengthAwarePaginator
+    {
+        return Country::with('flag', 'index')->paginate(10);
     }
 
     private function fetchEeaCountries()
