@@ -16,7 +16,9 @@ class CountryController extends Controller
     public function index(IndexRequest $request)
     {
         try {
-            $countries = $this->countryService->getCountries();
+            $sortBy = $request->validated('sort_by', 'name');
+            $sortOrder = $request->validated('sort_order', 'asc');
+            $countries = $this->countryService->getCountries($sortBy, $sortOrder);
             $resourceData = CountryDetailsResource::collection($countries)
                 ->response($request)
                 ->getData(true);

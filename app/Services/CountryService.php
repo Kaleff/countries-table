@@ -15,6 +15,7 @@ class CountryService
     use UseCountryApi;
 
     private $eeaAcronyms = ['EFTA', 'EU'];
+    private $indexFields = ['gini', 'hdi'];
 
     public function storeEeaCountries()
     {
@@ -65,9 +66,17 @@ class CountryService
         }
     }
 
-    public function getCountries(): LengthAwarePaginator
+    public function getCountries(string $sortBy, string $sortOrder): LengthAwarePaginator
     {
-        return Country::with('flag', 'index')->paginate(10);
+        if (in_array($sortBy, $this->indexFields)) {
+            return Country::with('flag', 'index')
+                ->leftJoin('country_indices', 'countries.id', '=', 'country_indices.country_id')
+                ->orderBy("country_indices.$sortBy", $sortOrder)
+                ->select('countries.*')
+                ->paginate(10)
+                ->withQueryString();
+        }
+        return Country::with('flag', 'index')->orderBy($sortBy, $sortOrder)->paginate(10)->withQueryString();
     }
 
     private function fetchEeaCountries()

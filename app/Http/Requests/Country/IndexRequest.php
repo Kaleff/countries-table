@@ -17,9 +17,9 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'page' => 'integer|min:1',
-            'sort_by' => 'string|in:' . implode(',', self::ALLOWED_SORT_FIELDS),
-            'sort_order' => 'string|in:' . implode(',', self::ALLOWED_SORT_ORDERS),
+            'page' => 'nullable|integer|min:1',
+            'sort_by' => 'nullable|string|in:' . implode(',', self::ALLOWED_SORT_FIELDS),
+            'sort_order' => 'nullable|string|in:' . implode(',', self::ALLOWED_SORT_ORDERS),
         ];
     }
 }
