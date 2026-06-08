@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    /*
+    | Base URL the Livewire views use to reach the countries API. Defaults to
+    | this app's own /api. Point COUNTRIES_API_URL at a separate host when the
+    | API runs as its own service (also avoids self-request deadlocks under
+    | the single-process `php artisan serve`).
+    */
+    'countries_api' => [
+        'url' => env('COUNTRIES_API_URL', rtrim(env('APP_URL', 'http://localhost'), '/').'/api'),
+    ],
 ];
