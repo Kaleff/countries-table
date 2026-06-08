@@ -22,21 +22,27 @@ external API and displays them in a sortable, paginated table. Runs on
    docker exec -it countries-table-laravel.test-1 bash
    ```
 
-3. **Generate the application key:**
+3. **Install PHP dependencies:**
+
+   ```bash
+   composer install
+   ```
+
+4. **Generate the application key:**
 
    ```bash
    php artisan key:generate
    ```
 
-4. **Run the database migrations:**
+5. **Run the database migrations:**
 
    ```bash
    php artisan migrate
    ```
 
 > All `php`, `artisan`, and `composer` commands must be run **inside** the
-> `laravel.test` container (steps 3–4 assume you ran step 2 first). You can also run
-> them without an interactive shell, e.g. `docker compose exec laravel.test php artisan migrate`.
+> `laravel.test` container (steps 3–5 assume you ran step 2 first). You can also run
+> them without an interactive shell, e.g. `docker compose exec laravel.test composer install`.
 
 ## Links
 
