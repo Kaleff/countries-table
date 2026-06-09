@@ -8,6 +8,7 @@
         ['key' => 'cca3',           'label' => 'CCA3'],
         ['key' => 'hdi',            'label' => 'HDI'],
         ['key' => 'gini',           'label' => 'Gini'],
+        ['key' => null,             'label' => 'Gini rating'],
     ];
 @endphp
 
@@ -128,6 +129,15 @@
                                 {{ $country['index']['gini'] ?? '—' }}
                                 @if (! empty($country['index']['gini_year']))
                                     <span class="text-xs text-neutral-400">({{ $country['index']['gini_year'] }})</span>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3">
+                                @if (! empty($country['index']['gini_rating']))
+                                    <flux:badge color="{{ $country['index']['gini_rating']['color'] }}" size="sm">
+                                        {{ __($country['index']['gini_rating']['label']) }}
+                                    </flux:badge>
+                                @else
+                                    <span class="text-neutral-400">—</span>
                                 @endif
                             </td>
                         </tr>
